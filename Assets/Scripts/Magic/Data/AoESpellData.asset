@@ -15,8 +15,13 @@ MonoBehaviour:
   m_spellName: 
   m_visualEffect: {fileID: 0}
   m_combination: 
-  m_effects: []
+  m_effects:
+  - rid: 8358460190782652654
   m_radius: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8358460190782652654
+      type: {class: AttackEffect, ns: Magic.Effects, asm: Assembly-CSharp}
+      data:
+        m_damage: 0

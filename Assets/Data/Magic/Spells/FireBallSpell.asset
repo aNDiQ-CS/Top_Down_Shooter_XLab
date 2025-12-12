@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c31667737979a4ebe5e3100f6da4c7, type: 3}
   m_Name: FireBallSpell
   m_EditorClassIdentifier: Assembly-CSharp::Magic.Elements.TargetSpellData
-  m_spellName: 
+  m_spellName: Fireball
   m_visualEffect: {fileID: 0}
-  m_combination: 
-  m_speed: 0
+  m_combination: 00000000
+  m_effects: []
+  m_speed: 25
+  references:
+    version: 2
+    RefIds: []
