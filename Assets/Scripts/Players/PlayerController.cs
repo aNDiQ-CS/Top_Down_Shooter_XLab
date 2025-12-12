@@ -14,6 +14,7 @@ namespace Players
         [SerializeField] private NavMeshMouseResolver m_navMeshMouseResolver;
 
         private Camera m_camera;
+        private PlayerRotationCalculator m_playerRotationCalculator;
 
         private void OnValidate()
         {
@@ -30,17 +31,21 @@ namespace Players
 
         private void Start()
         {
-            m_playerMovement.Initialize(m_config.speed);
+            m_playerMovement.Initialize(m_config.speed, m_config.angularSpeed);
             m_navMeshMouseResolver.Initialize(Camera.main);
+            m_playerRotationCalculator = new PlayerRotationCalculator(Camera.main, transform);
             
             SetupCursor();
         }
 
         private void Update()
         {
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            var lookPoint = m_playerRotationCalculator.Calculate(mousePos);
+            m_playerMovement.RotateTowards(lookPoint);
+
             if (Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                Vector3 mousePos = Mouse.current.position.ReadValue();
+            {                
                 Vector3? navPoint = m_navMeshMouseResolver.GetNavMeshPoint(mousePos);
 
                 if (navPoint.HasValue) 

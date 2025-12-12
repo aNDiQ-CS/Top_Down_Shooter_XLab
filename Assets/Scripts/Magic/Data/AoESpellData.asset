@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc1dbacd8223634dbaa8dd65385daa4, type: 3}
+  m_Name: AoESpellData
+  m_EditorClassIdentifier: Assembly-CSharp::Magic.Elements.AoESpellData
+  m_spellName: 
+  m_visualEffect: {fileID: 0}
+  m_combination: 
+  m_effects: []
+  m_radius: 0
+  references:
+    version: 2
+    RefIds: []
