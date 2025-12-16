@@ -1,17 +1,17 @@
-using Unity.VisualScripting;
+using Assets.Scripts.Magic.Systems;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 namespace Players
 {
-    [RequireComponent(typeof(PlayerMovement))]
-    [RequireComponent(typeof(NavMeshMouseResolver))]
+    [RequireComponent(typeof(PlayerMovement))]    
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private PlayerConfig m_config;
         [SerializeField] private PlayerMovement m_playerMovement;
-        [SerializeField] private NavMeshMouseResolver m_navMeshMouseResolver;
+        [SerializeField] private MouseResolver m_navMeshMouseResolver;
+        [SerializeField] private MagicInputHelper m_magicInputHelper;
+
 
         private Camera m_camera;
         private PlayerRotationCalculator m_playerRotationCalculator;
@@ -25,7 +25,7 @@ namespace Players
 
             if (!m_navMeshMouseResolver)
             {
-                m_navMeshMouseResolver = GetComponent<NavMeshMouseResolver>();
+                m_navMeshMouseResolver = GetComponent<MouseResolver>();
             }
         }
 
@@ -46,7 +46,7 @@ namespace Players
 
             if (Mouse.current.rightButton.wasPressedThisFrame)
             {                
-                Vector3? navPoint = m_navMeshMouseResolver.GetNavMeshPoint(mousePos);
+                Vector3? navPoint = m_navMeshMouseResolver.GetNavMeshPoint();
 
                 if (navPoint.HasValue) 
                 {
@@ -54,6 +54,8 @@ namespace Players
                 }
                 
             }
+
+            m_magicInputHelper.Update();
         }
 
         private void SetupCursor()
