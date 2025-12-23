@@ -12,10 +12,10 @@ namespace Entities
         private float m_value;
         private bool m_initialized;
 
-        public float Value
+        public float value
         {
             get => m_value;
-            private set
+            set
             {
                 if (Mathf.Approximately(m_value, value))
                 {
@@ -31,7 +31,7 @@ namespace Entities
                     Died?.Invoke();
                 }
             }
-        }
+        }        
 
         public void Initialize(float value)
         {
@@ -49,7 +49,7 @@ namespace Entities
             if (health < 0)
                 throw new ArgumentOutOfRangeException(nameof(health), health, "Ты дурак, низя отрицательные");
 
-            Value += health;
+            value += health;
         }
 
         public void TakeDamage(float damage)
@@ -57,7 +57,7 @@ namespace Entities
             if (damage < 0)
                 throw new ArgumentOutOfRangeException(nameof(damage), damage, "Ты дурак, низя отрицательные");
 
-            Value -= damage;
+            value -= damage;
         }
     }
 }

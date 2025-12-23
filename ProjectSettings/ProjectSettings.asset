@@ -940,11 +940,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 583ea9a4-d10c-4fbf-8fd2-8dd24ee7cc4c
+  cloudProjectId: c7d1b43e-7c95-4e2b-a36e-a4b489e77971
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Sample
-  organizationId: vickykat1357
+  projectName: Top_Down_Shooter_XLab
+  organizationId: nikitin-david2013-yandex-ru
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
