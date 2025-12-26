@@ -15,5 +15,6 @@ MonoBehaviour:
   m_enemyType: 1
   m_health: 100
   m_speed: 0
-  m_attackTime: 0
-  m_attackRange: 0
+  m_spell: {fileID: 0}
+  m_attackTime: 2
+  m_attackRange: 10

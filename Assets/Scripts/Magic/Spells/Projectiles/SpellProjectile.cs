@@ -54,8 +54,8 @@ namespace Magic.Spells.Projectiles
             if (!m_initialized) return;
             if (other.GetComponent<PlayerController>()) return;
 
-            if (other.TryGetComponent<IEffectable>(out var effectable))
-                ApplyEffects(effectable);
+            //if (other.TryGetComponent<IEffectable>(out var effectable))
+            //    m_effects.ApplyEffects(effectable);
 
             Destroy(gameObject);
         }
@@ -63,7 +63,7 @@ namespace Magic.Spells.Projectiles
         public void Initialize(Vector3 targetPosition, float speed, IReadOnlyList<IEffect> effects)
         {
             m_targetPosition = targetPosition;
-            // m_targetPosition.y = transform.position.y;
+            m_targetPosition.y = transform.position.y;
 
             m_speed = speed;
             m_effects = effects;
@@ -91,7 +91,29 @@ namespace Magic.Spells.Projectiles
             }
         }
 
+        private void ApplyEffects(IReadOnlyCollection<IEffectable> effectables)
+        {
+            m_effects.ApplyEffects(effectables);
+        }
+
         private void SetLinearVelocity() => 
             m_rigidbody.linearVelocity = m_direction * m_speed;
+    }
+
+    public static class EffectsExtensions
+    {
+        public static void ApplyEffects(this IReadOnlyCollection<IEffect> effects, 
+            IReadOnlyCollection<IEffectable> effectables)
+        {
+            if (effects is null) return;
+
+            foreach (var effect in effects)
+            {
+                foreach (var effectable in effectables)
+                {
+                    effect?.Apply(effectable);
+                }
+            }
+        }
     }
 }
