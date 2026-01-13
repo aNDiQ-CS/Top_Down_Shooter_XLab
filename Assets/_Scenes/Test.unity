@@ -1453,6 +1453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entities.Enemies.SpawnerEnemy
   m_data:
   - {fileID: 11400000, guid: ef0bcbdff9633b746871cb6bef5851dd, type: 2}
+  - {fileID: 11400000, guid: aa62f123a68f0fa439f09853459dfc89, type: 2}
   m_enemies:
   - {fileID: 613505357926333330, guid: 7ce578af94bb0094b9e33498a3ac0ab6, type: 3}
   m_spawnPoints:
@@ -1461,6 +1462,7 @@ MonoBehaviour:
   - {fileID: 721473472}
   - {fileID: 1423447283}
   - {fileID: 1930446260}
+  m_playerTransform: {fileID: 0}
 --- !u!1 &1791234057
 GameObject:
   m_ObjectHideFlags: 0
