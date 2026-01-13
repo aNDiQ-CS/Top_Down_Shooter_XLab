@@ -9,11 +9,13 @@ namespace Entities.Enemies
     {
         public event Action<Enemy> Died;
 
-        [SerializeField] private AttackEnemy m_attack;                    
+        [SerializeField] private AttackEnemy m_attack;
+        [SerializeField] private HealthComponent m_health;
+        [SerializeField] private EnemyMovement m_enemyMovement;
+
         private EnemyData m_data;
         private EnemyStateMachine m_stateMachine;
         private Transform m_playerTransform;
-        [SerializeField] private HealthComponent m_health;
         // TODO: Add HealthComponent
         // TODO: Add Movement
         // TODO: Add AttackComponent                
@@ -40,8 +42,15 @@ namespace Entities.Enemies
             m_data = data;
             m_health.Initialize(data.health);
             m_attack.Initialize(data.spell, playerTransform, data.attackTime);
+            // TODO: m_enemyMovement.Initialize()
 
+            m_playerTransform = playerTransform;
             m_stateMachine ??= new EnemyStateMachine();
+
+            if (data.enemyType == AttackEnemyType.Melee)
+            {
+                m_stateMachine.ChangeState(EnemyState.Move);
+            }
         }
 
         private void UpdateState()
@@ -51,7 +60,16 @@ namespace Entities.Enemies
             switch (m_stateMachine.currentState)
             {
                 case EnemyState.Idle: HandleIdleState(isInAttackRange); break;
+                case EnemyState.Move: HandleMoveState(isInAttackRange); break;
                 case EnemyState.Attack: HandleAttackState(isInAttackRange); break;
+            }
+        }
+
+        private void HandleMoveState(bool isInAttackRange)
+        {
+            if (isInAttackRange)
+            {
+                m_stateMachine.ChangeState(EnemyState.Attack);  
             }
         }
 
@@ -92,6 +110,20 @@ namespace Entities.Enemies
         private void OnDisable()
         {
             m_health.Died -= OnDied;
+            m_stateMachine.StateChanged += OnStateChanged;
+        }
+
+        private void OnStateChanged(EnemyState prevState, EnemyState nextState)
+        {
+            if (prevState is EnemyState.Move)
+            {
+                m_enemyMovement.StopMoving();
+            }
+
+            if (nextState is EnemyState.Move)
+            {
+                m_enemyMovement.StartMoving();
+            }
         }
 
         private void OnDied()
