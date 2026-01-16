@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Entities
 {
-    internal class HealthComponent : MonoBehaviour, IHealth, IEffectable
+    public class HealthComponent : MonoBehaviour, IHealth, IEffectable
     {
         public event Action Died;
         public event Action ValueChanged;
