@@ -41,7 +41,7 @@ namespace Entities.Enemies
         {
             m_data = data;
             m_health.Initialize(data.health);
-            m_attack.Initialize(data.spell, playerTransform, data.attackTime);
+            m_attack.Initialize(data.spells, playerTransform, data.attackTime, data.defaultSpell);
             // TODO: m_enemyMovement.Initialize()
 
             m_playerTransform = playerTransform;

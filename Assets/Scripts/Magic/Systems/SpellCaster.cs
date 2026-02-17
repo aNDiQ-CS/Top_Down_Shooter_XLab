@@ -121,7 +121,7 @@ namespace Magic.Systems
             }
             else
             {
-                Object.Destroy(aoe);
+                Object.Destroy(aoe, 1);
             }
             return;
 

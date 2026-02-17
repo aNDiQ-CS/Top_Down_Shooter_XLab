@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4a24e6d2fc5a446a20eb724028a755, type: 3}
   m_Name: TargetSpellData
   m_EditorClassIdentifier: Assembly-CSharp::Magic.Spells.Data.TargetSpellData
-  m_spellName: 
+  m_spellName: Posion
   m_visualEffect: {fileID: 0}
-  m_combination: 
+  m_combination: 0000000001000000
   m_effects: []
   m_speed: 0
   references:
