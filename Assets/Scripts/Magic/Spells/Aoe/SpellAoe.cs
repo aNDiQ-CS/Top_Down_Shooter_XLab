@@ -1,5 +1,5 @@
 using Magic.Effects;
-using Magic.Spells.Projectiles;
+using Magic.Effects.Extensions;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,8 +17,9 @@ namespace Magic.Spells.Aoe
                 {
                     continue;
                 }
+
                 var effectables = collider.GetComponents<IEffectable>();
-                effects.ApplyEffects(effectables);                
+                effects.ApplyEffects(effectables);
             }
         }
     }

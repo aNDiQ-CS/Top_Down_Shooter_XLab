@@ -23,39 +23,45 @@ namespace Entities
                 }
 
                 m_value = value < 0 ? 0 : value;
-
                 ValueChanged?.Invoke();
 
-                if (m_value == 0)
+                if (m_value is 0)
                 {
                     Died?.Invoke();
                 }
             }
-        }        
+        }
+
+        public float maxValue { get; private set; }
 
         public void Initialize(float value)
         {
             if (m_initialized)
             {
-                throw new InvalidOperationException("Ты балбес, уже инициализировали");
+                throw new InvalidOperationException("Health component is already initialized");
             }
 
-            m_initialized = true;            
-            m_value = value;
+            this.value = value;
+            maxValue = value;
+            m_initialized = true;
         }
 
-        public void Heal(float health)
+        public void Heal(float heal)
         {
-            if (health < 0)
-                throw new ArgumentOutOfRangeException(nameof(health), health, "Ты дурак, низя отрицательные");
+            if (heal < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(heal), heal, "Heal can not be negative");
+            }
 
-            value += health;
+            value += heal;
         }
 
         public void TakeDamage(float damage)
         {
             if (damage < 0)
-                throw new ArgumentOutOfRangeException(nameof(damage), damage, "Ты дурак, низя отрицательные");
+            {
+                throw new ArgumentOutOfRangeException(nameof(damage), damage, "Damage can not be negative");
+            }
 
             value -= damage;
         }

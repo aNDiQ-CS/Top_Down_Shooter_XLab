@@ -1,4 +1,5 @@
 using Magic.Effects;
+using Magic.Effects.Extensions;
 using Magic.Spells.Aoe;
 using Magic.Spells.Data;
 using Magic.Spells.Projectiles;
@@ -13,11 +14,12 @@ namespace Magic.Systems
     {
         private readonly bool m_isSingleSpell;
         private readonly Transform m_casterTransform;
-        private ObjectPool<GameObject> m_visualEffectPool;
+        private ObjectPool<GameObject> m_visualEffectsPool;
+
         public SpellCaster(Transform casterTransform, bool isSingleSpell = false)
         {
             m_isSingleSpell = isSingleSpell;
-            m_casterTransform = casterTransform;            
+            m_casterTransform = casterTransform;
         }
 
         public void Cast(BaseSpellData spell, Vector3 worldPosition)
@@ -51,16 +53,12 @@ namespace Magic.Systems
         {
             if (selfSpell.visualEffect)
             {
-                Object.Instantiate(selfSpell.visualEffect, m_casterTransform.position, Quaternion.identity);
+                var visualEffect = Object.Instantiate(selfSpell.visualEffect, m_casterTransform.position, Quaternion.identity);
+                SetLayer(visualEffect);
             }
 
-            if (m_casterTransform.TryGetComponent<IEffectable>(out var effectable))
-            {
-                foreach (var effect in selfSpell.effects)
-                {
-                    effect.Apply(effectable);
-                }
-            }
+            var effectables = m_casterTransform.GetComponents<IEffectable>();
+            selfSpell.effects.ApplyEffects(effectables);
         }
         
         private void CastTarget(TargetSpellData targetSpell, Vector3 worldPosition)
@@ -89,23 +87,21 @@ namespace Magic.Systems
         {
             GameObject aoe;
 
-            if (!m_isSingleSpell)
+            if (m_isSingleSpell)
             {
-                m_visualEffectPool ??= new ObjectPool<GameObject>(
-                    createFunc: () => new GameObject("VisualEffectPool"),
+                m_visualEffectsPool ??= new ObjectPool<GameObject>(
+                    createFunc: Create,
                     actionOnGet: gm => gm.SetActive(true),
-                    actionOnDestroy: Object.Destroy,
-                    actionOnRelease: gm => gm.SetActive(false));
+                    actionOnRelease: gm => gm.SetActive(false),
+                    actionOnDestroy: Object.Destroy);
+
+                aoe = m_visualEffectsPool.Get();
             }
             else
             {
-
+                aoe = Create();
             }
 
-            aoe = aoeSpell.visualEffect
-            ? Object.Instantiate(aoeSpell.visualEffect, m_casterTransform.position, Quaternion.identity)
-            : new GameObject();
-            
             SetLayer(aoe);
             aoe.transform.position = worldPosition;
 
@@ -117,21 +113,21 @@ namespace Magic.Systems
 
             if (m_isSingleSpell)
             {
-                m_visualEffectPool.Release(aoe);
+                m_visualEffectsPool.Release(aoe);
             }
             else
             {
-                Object.Destroy(aoe, 1);
+                Object.Destroy(aoe, 1f);
             }
             return;
 
             GameObject Create()
             {
                 return aoeSpell.visualEffect
-                    ? Object.Instantiate(aoeSpell.visualEffect, m_casterTransform.position, Quaternion.identity)
-                    : new GameObject();
+                ? Object.Instantiate(aoeSpell.visualEffect, m_casterTransform.position, Quaternion.identity)
+                : new GameObject();
             }
-        }        
+        }
 
         private void SetLayer(GameObject visualEffect)
         {

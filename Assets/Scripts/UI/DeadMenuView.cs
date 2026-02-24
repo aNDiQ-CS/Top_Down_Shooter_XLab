@@ -7,7 +7,7 @@ namespace UI
     public class DeadMenuView : MonoBehaviour
     {
         public event Action GoToMenuClicked;
-        
+
         [SerializeField] private Button m_goToMainMenuButton;
 
         private void OnEnable()
@@ -17,12 +17,10 @@ namespace UI
 
         private void OnDisable()
         {
-            m_goToMainMenuButton.onClick.RemoveListener(OnClicked);
+            m_goToMainMenuButton.onClick.AddListener(OnClicked);
         }
 
-        private void OnClicked()
-        {
+        private void OnClicked() =>
             GoToMenuClicked?.Invoke();
-        }
     }
 }

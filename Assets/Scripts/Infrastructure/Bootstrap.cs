@@ -1,29 +1,30 @@
-﻿using Entities.Enemies;
+﻿using UnityEngine;
 using Infrastructure.States;
-using Players;
+using Entities.Enemies;
 using UI;
-using UnityEngine;
+using Players;
 
 namespace Infrastructure
 {
-    public class Bootstrap : MonoBehaviour
+    public class Bootstrap: MonoBehaviour
     {
-        [SerializeField] private MainMenuView m_mainMenuView;
+        [SerializeField] private BootstrapState m_bootStrapState;
+        [SerializeField] private DeadMenuView m_deadMenuView;
         [SerializeField] private SpawnerEnemy m_enemySpawner;
         [SerializeField] private PlayerController m_playerController;
-        [SerializeField] private DeadMenuView m_deadMenuView;
 
         private void Awake()
         {
             var stateMachine = new StateMachine();
+            m_bootStrapState.Initialize(stateMachine);
 
             stateMachine.Initialize(
-                new MainMenuState(stateMachine, m_mainMenuView), 
+                m_bootStrapState,
                 new PauseMenuState(stateMachine), 
                 new DeadState(stateMachine, m_deadMenuView), 
-                new GamePlayState(stateMachine, m_enemySpawner, m_playerController)); 
+                new GamePlayState(stateMachine, m_enemySpawner, m_playerController));
 
-            stateMachine.ChangeState<MainMenuState>();
+            stateMachine.ChangeState<BootstrapState>();
         }
     }
 }

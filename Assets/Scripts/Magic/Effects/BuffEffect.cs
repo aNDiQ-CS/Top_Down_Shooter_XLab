@@ -1,6 +1,5 @@
 ﻿using Magic.Buffs;
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Magic.Effects
@@ -17,7 +16,7 @@ namespace Magic.Effects
             {
                 foreach (var buff in m_buffs)
                 {
-                    container.Add(buff.Clone() as IBuff);
+                    container.Add(buff.Clone());
                 }
             }
         }
