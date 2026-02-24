@@ -1,7 +1,10 @@
+using Cameras;
 using Entities.Enemies;
+using Markers;
 using Players;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using UI;
 using UnityEngine;
 namespace Infrastructure.States
@@ -79,17 +82,35 @@ namespace Infrastructure.States
 
     public class GamePlayState : IState
     {
+        private readonly Vector3 m_playerPosition;
         private readonly SpawnerEnemy m_spawnerEnemy;
         private readonly StateMachine m_stateMachine;
         private readonly PlayerController m_playerController;
-        public GamePlayState(StateMachine stateMachine, SpawnerEnemy spawnerEnemy, PlayerController playerController)
+        private readonly TargetMarkerObserver m_targetMarkerObserver;
+        private readonly AimLineMarker m_aimLineMarker;
+        private readonly CameraFollow m_cameraFollow;
+
+        public GamePlayState(StateMachine stateMachine, 
+            SpawnerEnemy spawnerEnemy,
+            PlayerController playerController,
+            TargetMarkerObserver targetMarkerObserver,
+            AimLineMarker aimlineMarker,
+            CameraFollow cameraFollow)
         {
             m_spawnerEnemy = spawnerEnemy;
             m_stateMachine = stateMachine;
             m_playerController = playerController;            
+            m_targetMarkerObserver = targetMarkerObserver;
+            m_aimLineMarker = aimlineMarker;
+            m_cameraFollow = cameraFollow;
         }
         public void Enter()
         {
+            var playerPosition = ServiceLocator.Resolve<PlayerSpawnPoint>();
+            ServiceLocator.Resolve<IPlayerFactorySettings>().position = m_playerPosition;
+            ServiceLocator.Resolve<PlayerFactory>().Create();
+            
+
             m_spawnerEnemy.Spawn();
             m_playerController.health.Died += OnDiedChanged;
         }

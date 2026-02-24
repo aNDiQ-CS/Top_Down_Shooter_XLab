@@ -1,9 +1,11 @@
 using Entities.Enemies;
+using Markers;
 using Players;
 using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 namespace Infrastructure.States.Legacy
@@ -60,15 +62,18 @@ namespace Infrastructure.States.Legacy
         private readonly StateMachine m_stateMachine;
         private readonly EnemySpawner m_enemySpawner;
         private readonly PlayerController m_playerController;
+        private readonly TargetMarkerObserver m_targetMarkerObserver;
 
         public GameplayState(
             StateMachine stateMachine,
             EnemySpawner enemySpawner,
-            PlayerController playerController)
+            PlayerController playerController,
+            TargetMarkerObserver targetMarkerObserver)
         {
             m_stateMachine = stateMachine;
             m_enemySpawner = enemySpawner;
             m_playerController = playerController;
+            m_targetMarkerObserver = targetMarkerObserver;
         }
 
         public void Enter()
