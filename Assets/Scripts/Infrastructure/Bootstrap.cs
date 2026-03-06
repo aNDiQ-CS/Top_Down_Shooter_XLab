@@ -18,7 +18,7 @@ namespace Infrastructure
         [SerializeField] private TargetMarkerObserver m_targetMarkerObserver;
         [SerializeField] private AimLineMarker m_aimLineMarker;
         [SerializeField] private CameraFollow m_cameraFollow;
-
+        [SerializeField] private PauseMenuState m_pauseMenuState;
         private void Awake()
         {
             var stateMachine = new StateMachine();

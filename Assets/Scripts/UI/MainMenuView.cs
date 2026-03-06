@@ -1,5 +1,6 @@
 using Infrastructure;
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace UI
         public event Action PlayClicked;
         public event Action ExitClicked;
 
+        [SerializeField] private Loading m_loading;
         [SerializeField] private Button m_playButton;
         [SerializeField] private Button m_exitButton;
 
@@ -28,12 +30,14 @@ namespace UI
 
         private void OnPlayClick()
         {
-            SceneManager.LoadScene(GlobalConstants.Scenes.Game);
-            PlayClicked?.Invoke();
+            m_loading.LoadScene(GlobalConstants.Scenes.Game);
+            //SceneManager.LoadScene(GlobalConstants.Scenes.Game);
+            //PlayClicked?.Invoke();
         }
 
         private void OnExitClick()
         {
+            
             ExitClicked?.Invoke();
         }
     }

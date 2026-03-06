@@ -1,4 +1,4 @@
-using Entities.Enemies;
+    using Entities.Enemies;
 using Markers;
 using Players;
 using System;
@@ -34,25 +34,36 @@ namespace Infrastructure.States.Legacy
             }
             m_state.Enter();
         }
+
+        private void Update()
+        {
+            
+        }
     }
 
     public interface IState
     {
         public void Enter();
-
+        public void Update() { }
         public void Exit();
     }
 
     public class PauseMenuState : IState
     {
         private readonly StateMachine m_stateMachine;
+        private readonly Loading m_loading;
+        private readonly PauseMenuView m_pauseMenuView;
 
-        public PauseMenuState(StateMachine stateMachine)
+        public PauseMenuState(StateMachine stateMachine,
+            Loading loading, PauseMenuView pauseMenuView)
         {
             m_stateMachine = stateMachine;
         }
 
-        public void Enter() => throw new Exception();
+        public void Enter()
+        {
+            Time.timeScale = 0;
+        }
 
         public void Exit() => throw new Exception();
     }
