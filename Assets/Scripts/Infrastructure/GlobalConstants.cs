@@ -1,7 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
-
-namespace Infrastructure
+﻿namespace Infrastructure
 {
     public static class GlobalConstants 
     {
@@ -9,6 +6,11 @@ namespace Infrastructure
         {
             public const string Main = "Main";
             public const string Game = "Game";
+        }
+
+        public static class Paths
+        {
+            public const string PlayerPrefab = "Prefabs/Player";
         }
     }
 }

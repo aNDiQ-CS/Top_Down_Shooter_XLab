@@ -34,6 +34,11 @@ namespace Markers
 
         private void LateUpdate()
         {
+            if (m_playerTransform == null)
+            {
+                return;
+            }
+
             var playerPos = m_playerTransform.position;
             var end = GetAimPosition();
 
@@ -50,7 +55,7 @@ namespace Markers
 
         public void Initialize(Transform playerTransform)
         {
-            m_playerTransform = playerTransform;
+            m_playerTransform = playerTransform;    
         }
 
         private Vector3 GetAimPosition()

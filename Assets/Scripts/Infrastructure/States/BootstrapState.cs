@@ -17,11 +17,15 @@ namespace Infrastructure.States
 
         public void Enter()
         {
-            var playerFactory = new PlayerFactory("Prefabs/Player");
-            ServiceLocator.Register<PlayerFactory>(playerFactory);
-            ServiceLocator.Register<PlayerSpawnPoint>(m_playerSpawnPoint);
-            ServiceLocator.Register<MouseResolver>(m_mouseResolver);
-            m_stateMachine.ChangeState<GamePlayState>();
+            ServiceLocator.Register(m_mouseResolver);
+
+            var playerFactory = new PlayerFactory(GlobalConstants.Paths.PlayerPrefab);
+            ServiceLocator.Register<IPlayerFactory>(playerFactory);
+            ServiceLocator.Register<IPlayerFactorySettings>(playerFactory);
+
+            ServiceLocator.Register(m_playerSpawnPoint);
+
+            m_stateMachine.ChangeState<GameplayEntryState>();
         }
 
         public void Exit()

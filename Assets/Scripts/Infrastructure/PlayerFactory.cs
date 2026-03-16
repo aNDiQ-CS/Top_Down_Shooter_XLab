@@ -1,4 +1,4 @@
-using Players;
+﻿using Players;
 using UnityEngine;
 
 namespace Infrastructure
@@ -15,13 +15,13 @@ namespace Infrastructure
         public void Release();
     }
 
-    public class PlayerFactory : IPlayerFactorySettings
+    public class PlayerFactory : IPlayerFactory, IPlayerFactorySettings
     {
+        private readonly string m_path;
         private PlayerController m_playerPrefab;
         private PlayerController m_playerInstance;
-        private readonly string m_path;
 
-        Vector3 IPlayerFactorySettings.position { get; set; }
+        public Vector3 position { get; set; }
 
         public PlayerFactory(string path)
         {
@@ -38,10 +38,13 @@ namespace Infrastructure
             if (m_playerPrefab == null)
             {
                 var playerPrefab = Resources.Load<GameObject>(m_path);
-                m_playerPrefab = playerPrefab.GetComponent<PlayerController>();
+                m_playerPrefab = playerPrefab.GetComponent<PlayerController>(); 
             }
 
-            m_playerInstance = Object.Instantiate(m_playerPrefab, ((IPlayerFactorySettings)this).position, Quaternion.identity);
+            m_playerInstance = Object.Instantiate(
+                m_playerPrefab, 
+                ((IPlayerFactorySettings)this).position, 
+                Quaternion.identity);
             m_playerInstance.Initialize(Camera.main, ServiceLocator.Resolve<MouseResolver>());
 
             return m_playerInstance;
@@ -52,6 +55,5 @@ namespace Infrastructure
             Object.Destroy(m_playerInstance.gameObject);
             m_playerInstance = null;
         }
-
     }
 }
