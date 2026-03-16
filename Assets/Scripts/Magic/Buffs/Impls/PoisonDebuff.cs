@@ -7,23 +7,29 @@ namespace Magic.Buffs.Impls
 {
     [Serializable]
     public sealed class PoisonDebuff : TimedBuff
-    {        
-        [SerializeField][Min(0)] private float m_interval = 1f;
-        [SerializeField][Min(0)] private float m_damagePerSeconds = 2f;
-
-        private IHealth m_health;
+    {
+        [SerializeField] [Min(0)] private float m_interval = 1f;
+        [SerializeField] [Min(0)] private float m_damagePerSeconds = 2f;
 
         [NonSerialized] private float m_timer;
+        private IHealth m_health;
 
-        public PoisonDebuff(string id, float duration, float interval, float dps) : base(id, duration)
+        public PoisonDebuff(
+            string id,
+            Sprite icon,
+            BuffType type,
+            float duration,
+            float interval,
+            float damagePerSeconds)
+            : base (id, icon, type, duration)
         {
             m_interval = interval;
-            m_damagePerSeconds = dps;
+            m_damagePerSeconds = damagePerSeconds;
         }
 
-        protected override void OnInitialize()
+        protected override void OnInitialized()
         {
-            base.OnInitialize();
+            base.OnInitialized();
             m_health = container.GetComponent<IHealth>();
         }
 
@@ -39,6 +45,7 @@ namespace Magic.Buffs.Impls
             if (m_health == null)
             {
                 Deinitialize();
+                return;
             }
 
             if (m_timer < m_interval)
@@ -48,10 +55,11 @@ namespace Magic.Buffs.Impls
             else
             {
                 m_timer = 0;
-                // TODO: Attack
+                m_health.TakeDamage(m_damagePerSeconds);
             }
         }
 
-        public override object Clone() => new PoisonDebuff(Id, duration, m_interval, m_damagePerSeconds);        
+        public override IBuff Clone() =>
+            new PoisonDebuff(id, icon, type, duration, m_interval, m_damagePerSeconds);
     }
 }

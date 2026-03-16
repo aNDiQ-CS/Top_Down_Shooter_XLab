@@ -2,8 +2,9 @@
 
 namespace Entities.Enemies
 {
-    internal class EnemyStateMachine
+    public class EnemyStateMachine
     {
+        // previous and next states
         public event Action<EnemyState, EnemyState> StateChanged;
 
         public EnemyState currentState { get; private set; }
@@ -15,10 +16,14 @@ namespace Entities.Enemies
 
         public void ChangeState(EnemyState nextState)
         {
-            if (currentState is EnemyState.Dead || currentState == nextState) return;
+            if (currentState is EnemyState.Dead || currentState == nextState)
+            {
+                return;
+            }
 
             var previousState = currentState;
             currentState = nextState;
+
             StateChanged?.Invoke(previousState, currentState);
         }
     }

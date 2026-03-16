@@ -1,5 +1,4 @@
-﻿using Magic.Buffs;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Magic.Buffs.Base
@@ -7,23 +6,33 @@ namespace Magic.Buffs.Base
     [Serializable]
     public abstract class BaseBuff : IBuff
     {
+        [field: SerializeField]
+        public string id { get; private set; }
 
         [field: SerializeField]
-        public string Id { get; private set; }
+        public Sprite icon { get; private set; }
+
+        [field: SerializeField]
+        public BuffType type { get; private set; }
+
         protected BuffContainer container { get; private set; }
-        public void Initialize(BuffContainer container)
-        {
-            this.container = container;
-        }
 
         public BaseBuff() { }
 
-        protected BaseBuff(string id)
+        protected BaseBuff(string id, Sprite icon, BuffType type)
         {
-            Id = id;
+            this.id = id;
+            this.icon = icon;
+            this.type = type;    
         }
 
-        protected virtual void OnInitialize() { }
+        public void Initialize(BuffContainer container)
+        {
+            this.container = container;
+            OnInitialized();
+        }
+
+        protected virtual void OnInitialized() { }
 
         public void Deinitialize()
         {
@@ -37,6 +46,6 @@ namespace Magic.Buffs.Base
 
         public virtual void Update(float deltaTime) { }
 
-        abstract public object Clone();        
+        public abstract IBuff Clone();
     }
 }

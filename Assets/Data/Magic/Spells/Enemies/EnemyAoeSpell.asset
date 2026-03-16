@@ -16,13 +16,13 @@ MonoBehaviour:
   m_visualEffect: {fileID: 0}
   m_combination: 01000000
   m_effects:
-  - rid: 6380346436684349440
+  - rid: 9142120633905709123
   m_isTarget: 0
   m_radius: 5
   references:
     version: 2
     RefIds:
-    - rid: 6380346436684349440
+    - rid: 9142120633905709123
       type: {class: AttackEffect, ns: Magic.Effects, asm: Assembly-CSharp}
       data:
         m_damage: 10

@@ -1,13 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Magic.Effects.Extensions
 {
-    internal class EffectsExtensions
+    public static class EffectsExtensions
     {
+        public static void ApplyEffects(
+            this IReadOnlyCollection<IEffect> effects,
+            IEffectable effectable)
+        {
+            if (effects is null) return;
 
+            foreach (var effect in effects)
+            {
+                effect?.Apply(effectable);
+            }
+        }
+
+        public static void ApplyEffects(
+            this IReadOnlyCollection<IEffect> effects,
+            IReadOnlyCollection<IEffectable> effectables)
+        {
+            if (effects is null) return;
+
+            foreach (var effect in effects)
+            {
+                foreach (var effectable in effectables)
+                {
+                    effect?.Apply(effectable);
+                }
+            }
+        }
     }
 }

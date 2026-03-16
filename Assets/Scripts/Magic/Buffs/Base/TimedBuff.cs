@@ -4,26 +4,38 @@ using UnityEngine;
 namespace Magic.Buffs.Base
 {
     [Serializable]
-    public abstract class TimedBuff : BaseBuff
+    public abstract class TimedBuff : BaseBuff, ITimedBuff
     {
         [SerializeField] private float m_duration;
-        [NonSerialized] private float m_timer;
 
-        protected float duration => m_duration;
+        public float duration => m_duration;
 
-        protected TimedBuff(string id, float duration) : base(id)
+        [field: NonSerialized]
+        public float timer { get; private set; } 
+
+        public TimedBuff() { }
+
+        protected TimedBuff(string id, Sprite icon, BuffType type, float duration)
+            : base(id, icon, type)
         {
             m_duration = duration;
         }
 
-        protected override void OnDeinitializing() => m_timer = 0f;
+        protected override void OnInitialized()
+        {
+            timer = m_duration;
+            base.OnInitialized();
+        }
+
+        protected override void OnDeinitializing() =>
+            timer = 0;
 
         public sealed override void Update(float deltaTime)
         {
-            if (m_timer < m_duration)
+            if (timer > 0)
             {
                 OnUpdated(deltaTime);
-                m_timer += deltaTime;
+                timer -= deltaTime;
             }
             else
             {
@@ -31,9 +43,6 @@ namespace Magic.Buffs.Base
             }
         }
 
-        protected virtual void OnUpdated(float deltaTime)
-        {
-
-        }
+        protected virtual void OnUpdated(float deltaTime) { }
     }
 }

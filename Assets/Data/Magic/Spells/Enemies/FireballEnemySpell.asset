@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4a24e6d2fc5a446a20eb724028a755, type: 3}
   m_Name: FireballEnemySpell
   m_EditorClassIdentifier: Assembly-CSharp::Magic.Spells.Data.TargetSpellData
-  m_spellName: Fireball Enemy
-  m_visualEffect: {fileID: 1587250918974726, guid: b5fce0bfe46d8a2439ebe1d2611bb3a3, type: 3}
+  m_spellName: Enemy Fireball
+  m_visualEffect: {fileID: 1587250918974726, guid: a0fbc3331c879eb408b22e83f39d57fb, type: 3}
   m_combination: 
   m_effects:
-  - rid: 8358460507399389246
+  - rid: 5751289740089622599
   m_speed: 10
   references:
     version: 2
     RefIds:
-    - rid: 8358460507399389246
+    - rid: 5751289740089622599
       type: {class: AttackEffect, ns: Magic.Effects, asm: Assembly-CSharp}
       data:
         m_damage: 25

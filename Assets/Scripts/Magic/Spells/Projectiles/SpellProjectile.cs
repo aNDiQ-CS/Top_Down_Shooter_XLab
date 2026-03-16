@@ -1,7 +1,7 @@
 using Magic.Effects;
-using Players;
 using System.Collections.Generic;
 using UnityEngine;
+using Magic.Effects.Extensions;
 
 namespace Magic.Spells.Projectiles
 {
@@ -52,10 +52,8 @@ namespace Magic.Spells.Projectiles
         private void OnTriggerEnter(Collider other)
         {
             if (!m_initialized) return;
-            if (other.GetComponent<PlayerController>()) return;
 
-            //if (other.TryGetComponent<IEffectable>(out var effectable))
-            //    m_effects.ApplyEffects(effectable);
+            m_effects.ApplyEffects(other.GetComponents<IEffectable>());
 
             Destroy(gameObject);
         }
@@ -93,21 +91,11 @@ namespace Magic.Spells.Projectiles
 
         private void ApplyEffects(IReadOnlyCollection<IEffectable> effectables)
         {
-            m_effects.ApplyEffects(effectables);
-        }
+            // m_effects.ApplyEffects(effectables);
 
-        private void SetLinearVelocity() => 
-            m_rigidbody.linearVelocity = m_direction * m_speed;
-    }
+            if (m_effects is null) return;
 
-    public static class EffectsExtensions
-    {
-        public static void ApplyEffects(this IReadOnlyCollection<IEffect> effects, 
-            IReadOnlyCollection<IEffectable> effectables)
-        {
-            if (effects is null) return;
-
-            foreach (var effect in effects)
+            foreach (var effect in m_effects)
             {
                 foreach (var effectable in effectables)
                 {
@@ -115,5 +103,8 @@ namespace Magic.Spells.Projectiles
                 }
             }
         }
+
+        private void SetLinearVelocity() => 
+            m_rigidbody.linearVelocity = m_direction * m_speed;
     }
 }

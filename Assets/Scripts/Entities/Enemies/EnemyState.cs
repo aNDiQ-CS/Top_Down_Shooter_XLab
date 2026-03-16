@@ -1,11 +1,11 @@
 ﻿namespace Entities.Enemies
 {
-    public enum EnemyState
+    public enum EnemyState 
     {
         Idle,
         Move,
-        Attack,
-        Damage,
+        Attack, 
+        Damaged,
         Dead
     }
 }
